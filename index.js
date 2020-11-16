@@ -40,7 +40,7 @@ const baseConfig = {
         path: path.resolve(process.cwd(), 'dist')
     },
     resolve: {
-        extensions: ['.js', '.json', '.css', '.less'],
+        extensions: ['.ts', '.tsx', '.js', '.json', '.css', '.less'],
         modules: [
             'node_modules'
         ]
@@ -63,6 +63,22 @@ const baseConfig = {
                         },
                     },
                 ],
+            },
+            {
+                test: /\.ts(x?)$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: require.resolve('babel-loader'),
+                        options: {
+                            babelrc: true,
+                            cacheDirectory: true,
+                        },
+                    },
+                    {
+                        loader: require.resolve('ts-loader')
+                    }
+                ]
             },
             {
                 test: /\.css$/,
