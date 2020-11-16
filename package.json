@@ -1,6 +1,6 @@
 {
   "name": "@pohodnik/webpack-config",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Webpack configuration for Pohodnik's projects",
   "main": "index.js",
   "scripts": {
