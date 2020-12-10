@@ -1,0 +1,6 @@
+{
+    "compilerOptions": {
+        "sourceMap": false,
+        "jsx": "preserve"
+    }
+}

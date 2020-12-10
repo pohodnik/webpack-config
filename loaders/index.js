@@ -16,7 +16,7 @@ module.exports = ({ sourceMap = false, hmr = false }) => ({
     cssLoader: {
         loader: require.resolve('css-loader'),
         options: {
-            sourceMap,
+            sourceMap
         }
     },
 
@@ -31,7 +31,8 @@ module.exports = ({ sourceMap = false, hmr = false }) => ({
                         flexbox: 'no-2009'
                     })
                 ]
-            }
+            },
+            sourceMap
         }
     },
 

@@ -52,7 +52,7 @@ const baseConfig = {
                 parser: { requireEnsure: false },
             },
             {
-                test: /\.(js)$/,
+                test: /\.js(x?)$/,
                 exclude: /node_modules/,
                 use: [
                     {
@@ -76,21 +76,25 @@ const baseConfig = {
                         },
                     },
                     {
-                        loader: require.resolve('ts-loader')
+                        loader: require.resolve('ts-loader'),
+                        options: {
+                            configFile: IS_DEV ? require('tsconfig.dev.json') : require('tsconfig.prod.json'),
+                        }
                     }
                 ]
             },
             {
                 test: /\.css$/,
                 use: [
-                    require.resolve('style-loader'),
-                    cssExtractLoader,
+                    IS_DEV ? require.resolve('style-loader') : cssExtractLoader,
                     cssLoader,
                     postCssLoader
                 ]
             },
             {
-                test: /(?!\.m)..\.less$/,
+                // just less
+                test: /\.less$/,
+                exclude: /\.m\.less$/,
                 use: [
                     IS_DEV ? require.resolve('style-loader') : cssExtractLoader,
                     cssLoader,
@@ -99,6 +103,7 @@ const baseConfig = {
                 ]
             },
             {
+                // CSS modules
                 test: /\.m\.less$/,
                 use: [
                     IS_DEV ? require.resolve('style-loader') : cssExtractLoader,
@@ -108,13 +113,10 @@ const baseConfig = {
                             sourceMap: IS_DEV,
                             modules: {
                                 mode: 'local',
-                                ...(IS_DEV ? {
-                                    localIdentName: '[path]_[name]_[local]--[hash:base64:3]',
-                                } : {
-                                    getLocalIdent: (context, localIdentName, localName) => (
-                                        cssClassUnique(localName, context.resourcePath)
-                                    )
-                                }
+                                ...(
+                                    IS_DEV
+                                    ? { localIdentName: '[path]_[name]_[local]--[hash:base64:3]' }
+                                    : { getLocalIdent: (context, localIdentName, localName) => cssClassUnique(localName, context.resourcePath) }
                                 )
                             },
                             importLoaders: 2
